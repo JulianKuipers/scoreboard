@@ -1,1 +1,2 @@
 # Scoreboard App
+This is a work in progress app which will consist of a server application to host an application which functions as a scoreboard for games. There will also be multiple client applications.
