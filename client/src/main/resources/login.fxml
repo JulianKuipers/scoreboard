@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.juliankuipers.controllers.LoginController"
+            prefHeight="400.0" prefWidth="600.0">
+    <top>
+        <fx:include source="header.fxml" fx:id="header"/>
+    </top>
+    <center>
+        <BorderPane>
+            <left>
+                <VBox>
+                    <Label text="10 most recent games"/>
+                    <VBox fx:id="recentGames"/>
+                </VBox>
+            </left>
+            <right>
+                <BorderPane>
+                    <center>
+                        <VBox>
+                            <Label text="Login:"/>
+                            <HBox>
+                                <Label text="E-mail:"/>
+                                <TextField fx:id="loginEmail" promptText="Your email"/>
+                            </HBox>
+                            <HBox>
+                                <Label text="Password:"/>
+                                <PasswordField fx:id="loginPassword" promptText="Your password"/>
+                            </HBox>
+                            <HBox>
+                                <Button text="Log in" fx:id="loginButton" onAction="#login"/>
+                            </HBox>
+                        </VBox>
+                    </center>
+                </BorderPane>
+            </right>
+        </BorderPane>
+    </center>
+
+</BorderPane>

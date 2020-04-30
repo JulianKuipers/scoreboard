@@ -16,11 +16,16 @@ public class User {
     @Column(name = "username")
     private String username;
 
+    @Column(name = "email")
+    private String email;
+
     @JsonIgnore
     @Column(name = "hashedpassword")
     private String hashedPassword;
 
-    public User() {}
+    public User() {
+
+    }
 
     public Integer getId() {
         return id;
@@ -36,6 +41,14 @@ public class User {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getHashedPassword() {
@@ -55,7 +68,7 @@ public class User {
             return false;
         }
         User user = (User) o;
-        return id.equals(user.id);
+        return id.equals(user.id) && email.equals(user.email);
     }
 
     @Override
@@ -68,6 +81,7 @@ public class User {
         return "User{"
                 + "id=" + id
                 + ", username='" + username + '\''
+                + ", email='" + email + '\''
                 + '}';
     }
 }
