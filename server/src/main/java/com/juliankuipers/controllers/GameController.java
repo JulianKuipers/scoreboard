@@ -35,7 +35,7 @@ public class GameController {
     public @ResponseBody Iterable<Game> getRecentGames(@PathVariable int number) {
         Iterable<Game> all = gameRepository.findAll();
         //TODO: all -> list -> sort on id desc and return top 'number'
-        return null;
+        return all;
     }
 
     @GetMapping(path="/{name}")

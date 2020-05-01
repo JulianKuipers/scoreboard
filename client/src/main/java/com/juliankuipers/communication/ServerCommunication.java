@@ -10,4 +10,5 @@ public class ServerCommunication {
     public static JSONArray getRecentGames() throws IOException, InterruptedException, JSONException {
         return new JSONArray(RequestMaker.request("/game/recent/10", false).body());
     }
+
 }
