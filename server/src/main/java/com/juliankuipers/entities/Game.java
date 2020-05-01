@@ -1,6 +1,9 @@
 package com.juliankuipers.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
+import java.sql.Date;
 import java.util.Objects;
 import java.util.Set;
 
@@ -18,10 +21,16 @@ public class Game {
     @Column(name = "description")
     private String description;
 
+    @Column(name = "date")
+    private Date date;
+
+    @JsonIgnore
     @OneToMany(mappedBy = "game", cascade = CascadeType.ALL)
     private Set<Score> scores;
 
-    public Game() {}
+    public Game() {
+
+    }
 
     public Integer getId() {
         return id;
@@ -47,6 +56,22 @@ public class Game {
         this.description = description;
     }
 
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public Set<Score> getScores() {
+        return scores;
+    }
+
+    public void setScores(Set<Score> scores) {
+        this.scores = scores;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -66,6 +91,7 @@ public class Game {
                 + "id=" + id
                 + ", name='" + name + '\''
                 + ", description='" + description + '\''
+                + ", startDate='" + date + '\''
                 + '}';
     }
 }

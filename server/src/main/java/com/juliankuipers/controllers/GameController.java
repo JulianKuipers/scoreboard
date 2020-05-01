@@ -1,9 +1,8 @@
 package com.juliankuipers.controllers;
 
 import com.juliankuipers.entities.Game;
-import com.juliankuipers.entities.User;
 import com.juliankuipers.repositories.GameRepository;
-import com.juliankuipers.repositories.UserRepository;
+import com.juliankuipers.repositories.GameRepositoryImplementation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +13,8 @@ public class GameController {
 
     @Autowired
     private GameRepository gameRepository;
+    @Autowired
+    private GameRepositoryImplementation gameRepositoryImplementation;
 
     @PostMapping(path = "/add")
     public @ResponseBody
@@ -26,19 +27,17 @@ public class GameController {
         return "Saved";
     }
 
-    @GetMapping(path="/all")
+    @GetMapping(path = "/all")
     public @ResponseBody Iterable<Game> getAllGames() {
         return gameRepository.findAll();
     }
 
-    @GetMapping(path="/recent/{number}")
+    @GetMapping(path = "/recent/{number}")
     public @ResponseBody Iterable<Game> getRecentGames(@PathVariable int number) {
-        Iterable<Game> all = gameRepository.findAll();
-        //TODO: all -> list -> sort on id desc and return top 'number'
-        return all;
+        return gameRepositoryImplementation.findTop(number);
     }
 
-    @GetMapping(path="/{name}")
+    @GetMapping(path = "/{name}")
     public @ResponseBody Game getGameByName(@PathVariable String name) {
         return gameRepository.findByName(name);
     }
