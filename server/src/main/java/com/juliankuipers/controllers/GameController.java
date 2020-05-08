@@ -1,11 +1,15 @@
 package com.juliankuipers.controllers;
 
 import com.juliankuipers.entities.Game;
+import com.juliankuipers.entities.Score;
 import com.juliankuipers.repositories.GameRepository;
 import com.juliankuipers.repositories.GameRepositoryImplementation;
+import com.juliankuipers.repositories.ScoreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Set;
 
 @Controller
 @RequestMapping(path = "/game")
@@ -15,6 +19,8 @@ public class GameController {
     private GameRepository gameRepository;
     @Autowired
     private GameRepositoryImplementation gameRepositoryImplementation;
+    @Autowired
+    private ScoreRepository scoreRepository;
 
     @PostMapping(path = "/add")
     public @ResponseBody
@@ -46,5 +52,10 @@ public class GameController {
     @GetMapping(path = "/id/{id}")
     public @ResponseBody Game getGameById(@PathVariable int id) {
         return gameRepository.findById(id);
+    }
+
+    @GetMapping(path = "/scores/{id}")
+    public @ResponseBody Set<Score> getScores(@PathVariable int id) {
+        return scoreRepository.findAllByGameId(id);
     }
 }
