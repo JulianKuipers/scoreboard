@@ -37,8 +37,14 @@ public class GameController {
         return gameRepositoryImplementation.findTop(number);
     }
 
-    @GetMapping(path = "/{name}")
+    // Change to proper url formats with name:value queries
+    @GetMapping(path = "/name/{name}")
     public @ResponseBody Game getGameByName(@PathVariable String name) {
         return gameRepository.findByName(name);
+    }
+
+    @GetMapping(path = "/id/{id}")
+    public @ResponseBody Game getGameById(@PathVariable int id) {
+        return gameRepository.findById(id);
     }
 }
