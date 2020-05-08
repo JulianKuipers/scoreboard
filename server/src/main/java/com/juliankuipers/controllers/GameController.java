@@ -1,6 +1,7 @@
 package com.juliankuipers.controllers;
 
 import com.juliankuipers.entities.Game;
+import com.juliankuipers.entities.Player;
 import com.juliankuipers.entities.Score;
 import com.juliankuipers.repositories.GameRepository;
 import com.juliankuipers.repositories.GameRepositoryImplementation;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Controller
@@ -57,5 +59,18 @@ public class GameController {
     @GetMapping(path = "/scores/{id}")
     public @ResponseBody Set<Score> getScores(@PathVariable int id) {
         return scoreRepository.findAllByGameId(id);
+    }
+
+    @GetMapping(path = "/players/{id}")
+    public @ResponseBody Set<Player> getPlayers(@PathVariable int id) {
+        Set<Player> players = new HashSet<Player>();
+        Set<Score> scores = scoreRepository.findAllByGameId(id);
+        for (Score score : scores) {
+            Player player = score.getPlayer();
+            if (!players.contains(player)) {
+                players.add(player);
+            }
+        }
+        return players;
     }
 }
