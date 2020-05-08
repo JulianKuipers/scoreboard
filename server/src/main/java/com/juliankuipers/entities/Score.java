@@ -1,5 +1,7 @@
 package com.juliankuipers.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Objects;
 
@@ -22,7 +24,9 @@ public class Score {
     @Column(name = "score")
     private int score;
 
-    public Score() {}
+    public Score() {
+
+    }
 
     public Integer getId() {
         return id;
@@ -54,6 +58,14 @@ public class Score {
 
     public void setScore(int score) {
         this.score = score;
+    }
+
+    public void incrementScore(int add) {
+        this.score += add;
+    }
+
+    public void decrementScore(int remove) {
+        this.score -= remove;
     }
 
     @Override
