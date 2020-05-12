@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Set;
+
 @Controller
 @RequestMapping(path="/score")
 public class ScoreController {
@@ -37,7 +39,13 @@ public class ScoreController {
     }
 
     @GetMapping(path="/{nickname}")
-    public @ResponseBody Score getScoreByNickname(@PathVariable String nickname) {
-        return scoreRepository.findByPlayer(playerRepository.findByNickname(nickname));
+    public @ResponseBody Iterable<Score> getScoresByNickname(@PathVariable String nickname) {
+        return scoreRepository.findAllByPlayer(playerRepository.findByNickname(nickname));
     }
+
+    @GetMapping(path = "/id/{id}")
+    public @ResponseBody Score getScoreById(@PathVariable int id) {
+        return scoreRepository.findById(id).orElse(null);
+    }
+
 }

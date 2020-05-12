@@ -12,7 +12,7 @@ public class GameCommunication {
     }
 
     public static JSONArray getGameScores(int id) throws IOException, InterruptedException {
-        return RequestMaker.requestJSONArray("/game/scores/" + id, false);
+        return RequestMaker.requestJSONArray("/game/ranking/" + id, false);
     }
 
     public static JSONArray getGamePlayers(int id) throws IOException, InterruptedException {

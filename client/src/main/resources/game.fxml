@@ -6,9 +6,34 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
+<BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.juliankuipers.controllers.GameController"
-            prefHeight="400.0" prefWidth="600.0">
+            prefHeight="400.0" prefWidth="600.0"
+            fx:id="window">
+    <top>
+        <fx:include source="header.fxml" fx:id="header"/>
+    </top>
+    <center>
+        <VBox>
+            <HBox>
+                <Label text="Last updated: "/>
+                <Label fx:id="date"/>
+                <Label text=" at "/>
+                <Label fx:id="time"/>
+            </HBox>
+            <VBox fx:id="scores">
+                <BorderPane>
+                    <center>
+                        <HBox>
+                            <Label text="Rank"/>
+                            <Label text="Player"/>
+                            <Label text="Score"/>
+                        </HBox>
+                    </center>
+                </BorderPane>
+            </VBox>
+        </VBox>
+    </center>
 
-</AnchorPane>
+</BorderPane>

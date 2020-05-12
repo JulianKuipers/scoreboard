@@ -23,13 +23,18 @@ public class PlayerController {
         return "Saved";
     }
 
-    @GetMapping(path="/all")
+    @GetMapping(path = "/all")
     public @ResponseBody Iterable<Player> getAllPlayers() {
         return playerRepository.findAll();
     }
 
-    @GetMapping(path="/{nickname}")
+    @GetMapping(path = "/{nickname}")
     public @ResponseBody Player getPlayerByNickname(@PathVariable String nickname) {
         return playerRepository.findByNickname(nickname);
+    }
+
+    @GetMapping(path = "/id/{id}")
+    public @ResponseBody Player getPlayerById(@PathVariable int id) {
+        return playerRepository.findById(id).orElse(null);
     }
 }

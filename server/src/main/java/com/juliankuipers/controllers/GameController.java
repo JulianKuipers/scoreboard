@@ -73,4 +73,9 @@ public class GameController {
         }
         return players;
     }
+
+    @GetMapping(path = "/ranking/{gameId}")
+    public @ResponseBody Set<Score> getRankingByGameId(@PathVariable int gameId) {
+        return scoreRepository.findAllByGameIdRanked(gameId);
+    }
 }

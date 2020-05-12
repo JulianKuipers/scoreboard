@@ -14,4 +14,10 @@ public interface ScoreRepository extends CrudRepository<Score, Integer> {
 
     @Query(value = "SELECT DISTINCT * FROM scores AS s WHERE s.game_id = :id", nativeQuery = true)
     Set<Score> findAllByGameId(@Param("id") int id);
+
+    @Query(value = "SELECT DISTINCT * FROM scores AS s WHERE s.game_id = :id ORDER BY s.score DESC", nativeQuery = true)
+    Set<Score> findAllByGameIdRanked(@Param("id") int id);
+
+    Iterable<Score> findAllByPlayer(Player byNickname);
+
 }
