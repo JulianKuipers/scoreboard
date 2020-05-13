@@ -1,12 +1,14 @@
 package com.juliankuipers.entities;
 
 import com.juliankuipers.communication.GameCommunication;
+import com.juliankuipers.exceptions.PlayerNotInArrayException;
 import com.juliankuipers.views.MakeAlert;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -17,8 +19,8 @@ public class Game {
     private String name;
     private String description;
     private Date date;
-    private Set<Score> rankedScores;
-    private Set<Player> players;
+    private ArrayList<Score> rankedScores;
+    private ArrayList<Player> players;
     private boolean existingInDatabase;
 
     /**
@@ -31,8 +33,8 @@ public class Game {
         this.description = description;
         this.date = date;
         this.existingInDatabase = false;
-        this.rankedScores = new HashSet<Score>();
-        this.players = new HashSet<Player>();
+        this.rankedScores = new ArrayList<Score>();
+        this.players = new ArrayList<Player>();
     }
 
     /**
@@ -44,31 +46,27 @@ public class Game {
         this.id = id;
         this.date = null;
         this.name = null;
-        this.rankedScores = new HashSet<Score>();
-        this.players = new HashSet<Player>();
+        this.rankedScores = new ArrayList<Score>();
+        this.players = new ArrayList<Player>();
         JSONObject data;
         try {
             data = GameCommunication.getAllGameData(this.id);
-            System.out.println(data);
             this.name = data.getString("name");
             this.description = data.getString("description");
             this.date = Date.valueOf(data.getString("date"));
             JSONArray scoresArray = data.getJSONArray("scores");
             JSONArray playerArray = data.getJSONArray("players");
-            for (Object obj : playerArray) {
-                System.out.println(obj);
-                JSONObject player = new JSONObject(obj);
-                System.out.println(player);
-                Player newPlayer = new Player(player.getInt("id"));
+            for (int i = 0; i < playerArray.length(); i++) {
+                Player newPlayer = new Player(playerArray.getJSONObject(i).getInt("id"));
                 this.players.add(newPlayer);
             }
-            for (Object obj : scoresArray) {
-                JSONObject score = new JSONObject(obj);
-                Score newScore = new Score(score.getInt("id"));
+            for (int i = 0; i < scoresArray.length(); i++) {
+                JSONObject score = scoresArray.getJSONObject(i);
+                Score newScore = new Score(score.getInt("id"), this, this.getPlayerById(score.getJSONObject("player").getInt("id")));
                 this.rankedScores.add(newScore);
             }
             this.existingInDatabase = true;
-        } catch (IOException | InterruptedException e) {
+        } catch (IOException | InterruptedException | PlayerNotInArrayException e) {
             e.printStackTrace();
             MakeAlert.serverCommunicationFailed();
         }
@@ -106,19 +104,19 @@ public class Game {
         this.date = date;
     }
 
-    public Set<Score> getRankedScores() {
+    public ArrayList<Score> getRankedScores() {
         return rankedScores;
     }
 
-    public void setRankedScores(Set<Score> rankedScores) {
+    public void setRankedScores(ArrayList<Score> rankedScores) {
         this.rankedScores = rankedScores;
     }
 
-    public Set<Player> getPlayers() {
+    public ArrayList<Player> getPlayers() {
         return players;
     }
 
-    public void setPlayers(Set<Player> players) {
+    public void setPlayers(ArrayList<Player> players) {
         this.players = players;
     }
 
@@ -128,5 +126,19 @@ public class Game {
 
     public void setExistingInDatabase(boolean existingInDatabase) {
         this.existingInDatabase = existingInDatabase;
+    }
+    
+    private Player getPlayerById(int id) throws PlayerNotInArrayException {
+        Player player = null;
+        System.out.println(id);
+        for (Player value : this.players) {
+            if (value.getId() == id) {
+                player = value;
+            }
+        }
+        if (player == null) {
+            throw new PlayerNotInArrayException();
+        }
+        return player;
     }
 }

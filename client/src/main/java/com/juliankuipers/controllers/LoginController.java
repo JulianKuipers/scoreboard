@@ -37,9 +37,6 @@ public class LoginController implements Initializable {
     loadRecentGames();
     }
 
-    private void loadSceneAndSendMessage(int id) {
-    }
-
     public void login() {
 
     }
@@ -64,29 +61,30 @@ public class LoginController implements Initializable {
         Label nameLabel = new Label(name);
         gamePane.setCenter(new HBox(nameLabel));
         Button seeGameButton = new Button("Go to game");
-        EventHandler<ActionEvent> handler = new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                try {
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/game.fxml"));
-                    Parent root = loader.load();
-                    GameController gameController = loader.getController();
-                    gameController.setData(game.getInt("id"));
-                    Stage stage = (Stage) window.getScene().getWindow();
-                    stage.setScene(new Scene(root));
-                    stage.show();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    MakeAlert.error("Something went wrong!", "Oops, please try again.");
-                }
-            }
-        };
-        seeGameButton.setOnAction(handler);
-        int id = game.getInt("id");
-        seeGameButton.setOnAction(event -> loadSceneAndSendMessage(id));
+        seeGameButton.setOnAction(event -> loadGame(game.getInt("id")));
         gamePane.setRight(new HBox(seeGameButton));
         recentGames.getChildren().add(gamePane);
     }
 
-
+    /**
+     * Pass the id to the next scene and load that scene.
+     *
+     * @param gameId the id of the game that is selected.
+     */
+    @FXML
+    private void loadGame(int gameId) {
+        try {
+            System.out.println("button clicked");
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/game.fxml"));
+            Parent root = loader.load();
+            GameController gameController = loader.getController();
+            gameController.setData(gameId);
+            Stage stage = (Stage) window.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            MakeAlert.error("Something went wrong!", "Oops, please try again.");
+        }
+    }
 }

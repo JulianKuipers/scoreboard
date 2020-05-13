@@ -37,6 +37,23 @@ public class Score {
         }
     }
 
+    public Score(int id, Game game, Player player) {
+        this.existingInDatabase = false;
+        this.id = id;
+        this.player = player;
+        this.game = game;
+        this.score = -1;
+        JSONObject data;
+        try {
+            data = ScoreCommunication.getScoreById(id);
+            this.score = data.getInt("score");
+            this.existingInDatabase = true;
+        } catch (InterruptedException | IOException e) {
+            e.printStackTrace();
+            MakeAlert.serverCommunicationFailed();
+        }
+    }
+
     public int getId() {
         return id;
     }
