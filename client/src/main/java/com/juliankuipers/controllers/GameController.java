@@ -19,6 +19,10 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.text.Format;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
 public class GameController implements Initializable {
@@ -27,15 +31,26 @@ public class GameController implements Initializable {
     private int rankingCounter;
     @FXML
     private VBox scores;
+    @FXML
+    private Label date;
+    @FXML
+    private Label time;
+    @FXML
+    private BorderPane window;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        this.rankingCounter = 1;
     }
 
     private void makeScene() {
+        updateTime();
         getDetails();
         addScores();
+    }
+
+    @FXML
+    private void refresh() {
+        makeScene();
     }
 
     public void setData(int id) {
@@ -48,6 +63,8 @@ public class GameController implements Initializable {
     }
 
     private void addScores() {
+        this.scores.getChildren().clear();
+        this.rankingCounter = 1;
         for (Score score : this.game.getRankedScores()) {
             addScore(score);
         }
@@ -62,5 +79,14 @@ public class GameController implements Initializable {
         Label scoreLabel = new Label(String.valueOf(score.getScore()));
         scorePane.setCenter(new HBox(rankLabel, nicknameLabel, scoreLabel));
         scores.getChildren().add(scorePane);
+    }
+
+    private void updateTime() {
+        DateTimeFormatter df = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        String dateText = LocalDate.now().format(df);
+        this.date.setText(dateText);
+        DateTimeFormatter tf = DateTimeFormatter.ofPattern("HH:mm:ss");
+        String timeText = LocalDateTime.now().format(tf);
+        this.time.setText(timeText);
     }
 }

@@ -35,5 +35,8 @@
             </VBox>
         </VBox>
     </center>
+    <right>
+        <Button text="Refresh" onAction="#refresh"/>
+    </right>
 
 </BorderPane>

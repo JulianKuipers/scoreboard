@@ -20,6 +20,7 @@ import javafx.stage.Stage;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -74,14 +75,14 @@ public class LoginController implements Initializable {
     @FXML
     private void loadGame(int gameId) {
         try {
-            System.out.println("button clicked");
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/game.fxml"));
             Parent root = loader.load();
             GameController gameController = loader.getController();
             gameController.setData(gameId);
-            Stage stage = (Stage) window.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.show();
+            Stage windowStage = (Stage) window.getScene().getWindow();
+            windowStage.getScene().setRoot(root);
+            windowStage.sizeToScene();
+            windowStage.show();
         } catch (IOException e) {
             e.printStackTrace();
             MakeAlert.error("Something went wrong!", "Oops, please try again.");
